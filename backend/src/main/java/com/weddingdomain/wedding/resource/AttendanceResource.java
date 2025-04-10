@@ -2,6 +2,7 @@ package com.weddingdomain.wedding.resource;
 
 import com.weddingdomain.wedding.entity.Guest;
 
+import com.weddingdomain.wedding.entity.OtherPerson;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -22,22 +23,28 @@ public class AttendanceResource {
     @Path("/submit-attend")
     @Transactional
     public Response submitAttendance(AttendanceRequest request) {
-        // Create new guest record
         Guest guest = new Guest();
         guest.name = request.name;
         guest.plusOneName = request.plusOneName;
-        guest.otherPeople = request.otherPeople;
 
-
-        // Save to database
+        // First persist the guest so we can use it for relationships
         guest.persist();
 
-        // Return success response
+        if (request.otherPeople != null) {
+            for (String name : request.otherPeople) {
+                OtherPerson other = new OtherPerson();
+                other.name = name;
+                other.guest = guest;
+                other.persist();
+            }
+        }
+
         return Response.ok().entity(new AttendanceResponse(
                 "Attendance recorded successfully",
                 guest.id
         )).build();
     }
+
 
     // Request DTO (Data Transfer Object)
     public static class AttendanceRequest {
