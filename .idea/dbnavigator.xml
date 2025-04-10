@@ -31,9 +31,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="c33a7446-6a22-4c15-84e5-e423ee5fb1c1" object-ref="schemas/public/tables/guest" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="c33a7446-6a22-4c15-84e5-e423ee5fb1c1" />
@@ -54,6 +52,9 @@
         <condition column="guest_id" operator="=" value="" active="true" />
       </filter>
     </filter-actions>
+  </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />

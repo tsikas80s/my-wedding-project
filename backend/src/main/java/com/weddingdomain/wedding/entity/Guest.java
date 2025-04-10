@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Guest extends PanacheEntity {
     public String name;
-    public String plusOneName;  // Single string
-    public List<String> otherPeople;  // List of strings
+    public String plusOneName;
+    public List<String> otherPeople;
 
 }

@@ -25,7 +25,7 @@ public class AttendanceResource {
         // Create new guest record
         Guest guest = new Guest();
         guest.name = request.name;
-        guest.plusOneName = request.plusOneName; // Single string
+        guest.plusOneName = request.plusOneName;
         guest.otherPeople = request.otherPeople;
 
 
