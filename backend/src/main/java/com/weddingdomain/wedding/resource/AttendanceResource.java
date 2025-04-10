@@ -2,7 +2,7 @@ package com.weddingdomain.wedding.resource;
 
 import com.weddingdomain.wedding.entity.Guest;
 
-import com.weddingdomain.wedding.entity.OtherPerson;
+import com.weddingdomain.wedding.entity.OtherPeople;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
@@ -32,7 +32,7 @@ public class AttendanceResource {
 
         if (request.otherPeople != null) {
             for (String name : request.otherPeople) {
-                OtherPerson other = new OtherPerson();
+                OtherPeople other = new OtherPeople();
                 other.name = name;
                 other.guest = guest;
                 other.persist();

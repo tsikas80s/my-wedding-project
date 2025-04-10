@@ -5,7 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import jakarta.persistence.*;
 
 @Entity
-public class OtherPerson extends PanacheEntity {
+public class OtherPeople extends PanacheEntity {
 
     public String name;
 
