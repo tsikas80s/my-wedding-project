@@ -1,3 +1,6 @@
-# Ignore sensitive config files
-application.properties
+backend/target/
+frontend/node_modules/
+.env
+*.log
 docker-compose.yml
+application.properties
