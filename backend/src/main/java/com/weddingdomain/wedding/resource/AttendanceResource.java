@@ -10,6 +10,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,49 +53,22 @@ public class AttendanceResource {
     @POST
     @Path("/submit-attend")
     @Transactional
-    public Response submitAttendance(AttendanceRequest request) {
-        Guest guest = new Guest();
-        guest.name = request.name;
-        guest.plusOneName = request.plusOneName;
-
-        // First persist the guest so we can use it for relationships
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(Guest guest) {
+        // Persist the guest
         guest.persist();
 
-        if (request.otherPeople != null) {
-            for (String name : request.otherPeople) {
-                OtherPeople other = new OtherPeople();
-                other.name = name;
-                other.guest = guest;
+        // Persist related others if they exist
+        if (guest.otherPeople != null) {
+            for (OtherPeople other : guest.otherPeople) {
+                other.guest = guest; // Set the relationship
                 other.persist();
             }
         }
 
-        return Response.ok().entity(new AttendanceResponse(
-                "Attendance recorded successfully",
-                guest.id
-        )).build();
-    }
-
-
-    // Request DTO (Data Transfer Object)
-    public static class AttendanceRequest {
-        public String name;
-        public String plusOneName;
-        public List<String> otherPeople;
-
-        // Empty constructor needed for JSON deserialization
-        public AttendanceRequest() {
+        if (guest.isPersistent()) {
+            return Response.created(URI.create("/guests/" + guest.id)).build();
         }
-    }
-
-    // Response DTO
-    public static class AttendanceResponse {
-        public String message;
-        public Long guestId;
-
-        public AttendanceResponse(String message, Long guestId) {
-            this.message = message;
-            this.guestId = guestId;
-        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }
