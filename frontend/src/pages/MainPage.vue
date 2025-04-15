@@ -218,7 +218,7 @@
         style="min-width: 50vw; max-width: 80vw; border-radius: 12px"
       >
         <q-card-section class="text-center">
-          <div class="text-h6">Attend Form</div>
+          <div class="text-h6">RSVP</div>
         </q-card-section>
         <q-separator class="bg-black"></q-separator>
         <q-card-section>
@@ -320,7 +320,7 @@
           </q-form>
         </q-card-section>
         <q-card-actions align="center">
-          <q-btn @click="cancelAttend" class="bg-grey-10 text-white" no-caps>
+          <q-btn @click="cancelAttend" class="bg-black text-white" no-caps>
             Cancel
           </q-btn>
           <q-btn
