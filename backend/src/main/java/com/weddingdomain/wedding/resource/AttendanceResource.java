@@ -56,6 +56,9 @@ public class AttendanceResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Guest guest) {
         // Persist the guest
+        if (guest == null) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Guest data is missing").build();
+        }
         guest.persist();
 
         // Persist related others if they exist
