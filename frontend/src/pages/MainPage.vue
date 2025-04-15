@@ -228,46 +228,83 @@
             </p>
           </div>
         </q-card-section>
-        <q-card-section ref="form">
+        <q-card-section>
           <q-form>
             <q-input
               :model-value.trim="name"
               @update:model-value="(val) => (name = capitalizeName(val.trim()))"
               filled
+              @keydown="
+                (e) =>
+                  !/[A-Za-z\u0370-\u03FF\u1F00-\u1FFF ]/.test(e.key) &&
+                  e.preventDefault()
+              "
               label="Όνομα και Επίθετο*"
-              lazy-rules
               :rules="[
                 (val) =>
                   (val && val.length > 4) ||
-                  'Παρακαλώ καταχωρήστε όνομα και επίθετο',
+                  'Παρακαλώ καταχωρήστε σωστό όνομα και επίθετο',
               ]"
             >
             </q-input>
             <q-input
               :disable="!name"
               :model-value="plusOneName"
+              @keydown="
+                (e) =>
+                  !/[A-Za-z\u0370-\u03FF\u1F00-\u1FFF ]/.test(e.key) &&
+                  e.preventDefault()
+              "
               @update:model-value="
                 (val) => (plusOneName = capitalizeName(val.trim()))
               "
               class="q-mt-lg"
               filled
               label="Όνομα και Επίθετο του plus one"
-              lazy-rules
+              :rules="[
+                (val) =>
+                  (val && val.length > 4) ||
+                  'Παρακαλώ καταχωρήστε σωστό όνομα και επίθετο',
+              ]"
             >
             </q-input>
             <q-input
               :disable="!name"
               :model-value="otherPerson"
+              @keydown="
+                (e) =>
+                  !/[A-Za-z\u0370-\u03FF\u1F00-\u1FFF ]/.test(e.key) &&
+                  e.preventDefault()
+              "
               @update:model-value="
-                (val) => (otherPerson = capitalizeName(val.trim()))
+                (val) => {
+                  otherPerson = capitalizeName(val.trim());
+                  isOtherPersonActive = !!val.trim();
+                }
               "
               class="q-mt-lg bold-enter-hint"
               filled
               label="Επιπλέον άτομα"
-              hint="Πατήστε το enter μόλις γράψετε ένα όνομα"
-              lazy-rules
               @keyup.enter="addChip"
-            />
+              bottom-slots
+              :rules="
+                isOtherPersonActive
+                  ? [
+                      (val) =>
+                        (val && val.length > 4) ||
+                        'Παρακαλώ καταχωρήστε σωστό όνομα και επίθετο',
+                    ]
+                  : null
+              "
+            >
+              <template v-slot:hint>
+                <div>
+                  Πατήστε το
+                  <span class="text-bold text-black">enter</span> μόλις γράψετε
+                  ένα όνομα
+                </div>
+              </template>
+            </q-input>
             <div v-if="otherPeople.length">
               <q-chip
                 v-for="(other, index) in otherPeople"
@@ -283,10 +320,11 @@
           </q-form>
         </q-card-section>
         <q-card-actions align="center">
-          <q-btn @click="cancelAttend" class="bg-grey text-white" no-caps>
+          <q-btn @click="cancelAttend" class="bg-grey-10 text-white" no-caps>
             Cancel
           </q-btn>
           <q-btn
+            :disable="!canSubmit"
             @click="submitAttend"
             style="background-color: #690124"
             class="text-white"
@@ -303,7 +341,7 @@
 <script setup>
 import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
 import "leaflet/dist/leaflet.css";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import L from "leaflet";
 import { axios } from "boot/axios";
 import { useQuasar } from "quasar";
@@ -338,6 +376,7 @@ const colors = [
   "blue",
   "yellow",
 ];
+const isOtherPersonActive = ref(false);
 
 //Lifecycle Hooks
 onMounted(() => {
@@ -351,6 +390,17 @@ onMounted(() => {
       "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
     shadowSize: [41, 41],
   });
+});
+
+// Computed
+const canSubmit = computed(() => {
+  const isNameValid = name.value && name.value.length > 4;
+
+  const isPlusOneValid = !plusOneName.value || plusOneName.value.length > 4;
+
+  const isOtherPersonValid = !otherPerson.value || otherPeople.length > 4;
+
+  return isNameValid && isPlusOneValid && isOtherPersonValid;
 });
 
 //Methods
@@ -410,9 +460,19 @@ function addChip() {
 
   if (!trimmedValue) return;
 
+  if (trimmedValue.length <= 4) {
+    $q.notify({
+      message:
+        "Παρακαλώ καταχωρήστε σωστό όνομα και επίθετο (τουλάχιστον 5 χαρακτήρες)",
+      color: "negative",
+      position: "bottom",
+    });
+    return;
+  }
+
   if (otherPeople.value.includes(trimmedValue)) {
     $q.notify({
-      message: "This name already exists!",
+      message: "Το όνομα αυτό υπάρχει ήδη!",
       color: "warning",
       position: "bottom",
     });
@@ -421,6 +481,7 @@ function addChip() {
 
   otherPeople.value.push(trimmedValue);
   otherPerson.value = "";
+  isOtherPersonActive.value = false;
 }
 
 function removeChip(index) {
