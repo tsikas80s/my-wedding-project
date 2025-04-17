@@ -4,15 +4,9 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        path: "home", // Normal path
+        path: "home",
         name: "HomePage",
-        component: () => import("src/pages/MainPage.vue"),
-        meta: { title: "Mariza & Dimitri's Wedding" },
-      },
-      {
-        path: "about",
-        name: "AboutPage",
-        component: () => import("src/pages/AboutPage.vue"),
+        component: () => import("src/pages/HomePage.vue"),
         meta: { title: "Mariza & Dimitri's Wedding" },
       },
     ],
