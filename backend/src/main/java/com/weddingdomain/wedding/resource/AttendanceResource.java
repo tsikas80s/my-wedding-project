@@ -25,27 +25,30 @@ public class AttendanceResource {
 
     @GET
     @Path("/export-excel")
-    @Produces("application/json")
+    @Produces("application/vnd.ms-excel")  // Excel MIME type
     public Response exportExcel() {
         List<Guest> guests = Guest.listAll();
 
-
         StringBuilder sb = new StringBuilder();
-        sb.append("Name\tPlus One\tOther Guests\n");
+
+        // Headers (reordered)
+        sb.append("Selected Option\tName\tPhone\tEmail\tPlus One\tOther Guests\n");
 
         guests.forEach(guest -> {
             String others = guest.otherPeople.stream()
                     .map(op -> op.name)
                     .collect(Collectors.joining(", "));
 
-            sb.append(guest.name).append("\t")
-                    .append(guest.plusOneName != null ? guest.plusOneName : "").append("\t")
-                    .append(others).append("\n");
+            sb.append(guest.selectedOption != null ? guest.selectedOption : "").append("\t")  // Selected Option
+                    .append(guest.name).append("\t")                                                // Name
+                    .append(guest.phoneNumber != null ? guest.phoneNumber : "").append("\t")       // Phone
+                    .append(guest.mail != null ? guest.mail : "").append("\t")                     // Email
+                    .append(guest.plusOneName != null ? guest.plusOneName : "").append("\t")       // Plus One
+                    .append(others).append("\n");                                                  // Other Guests
         });
 
         return Response.ok(sb.toString())
-                .header("Content-Disposition", "attachment; filename=wedding_guests.xlsx")
-                .header("Content-Type", "application/vnd.ms-excel") // Excel MIME type
+                .header("Content-Disposition", "attachment; filename=wedding_guests.xls")
                 .build();
     }
 

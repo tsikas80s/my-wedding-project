@@ -415,7 +415,7 @@
                 "
                 filled
                 class="q-mt-sm"
-                label="Επιπλέον άτομα"
+                label="Παιδιά"
                 @keyup.enter="addChip"
                 bottom-slots
               >
@@ -504,7 +504,7 @@ const mail = ref("");
 const selectedOption = ref("");
 const eventOptions = ref([
   { label: "Ναι, θα παρευρεθώ σίγουρα!", value: "yes" },
-  { label: "Δυστυχώς δεν θα παρευρεθώ", value: " no" },
+  { label: "Δυστυχώς δεν θα παρευρεθώ", value: "no" },
 ]);
 const plusOneName = ref("");
 const otherPerson = ref("");
@@ -699,10 +699,10 @@ function addChip() {
 
   if (!trimmedValue) return;
 
-  if (trimmedValue.length <= 4) {
+  if (trimmedValue.length <= 2) {
     $q.notify({
       message:
-        "Παρακαλώ καταχωρήστε σωστό όνομα και επίθετο (τουλάχιστον 5 χαρακτήρες)",
+        "Παρακαλώ καταχωρήστε σωστό όνομα και επίθετο (τουλάχιστον 3 χαρακτήρες)",
       color: "negative",
       position: "bottom",
     });
@@ -747,6 +747,9 @@ async function submitAttend() {
   const payload = {
     name: name.value,
     plusOneName: plusOneName.value,
+    phoneNumber: phoneNumber.value,
+    mail: mail.value,
+    selectedOption: selectedOption.value.value,
     otherPeople: otherPeople.value.map((name) => ({ name })),
   };
 

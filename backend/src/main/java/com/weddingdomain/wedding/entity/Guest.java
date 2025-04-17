@@ -11,6 +11,15 @@ public class Guest extends PanacheEntity {
     @Column(name = "name")
     public String name;
 
+    @Column(name = "mail")
+    public String mail;
+
+    @Column(name = "phone_number")
+    public Long phoneNumber;
+
+    @Column(name = "selected_option")
+    public String selectedOption;
+
     @Column(name = "plus_one_name")
     public String plusOneName;
 
