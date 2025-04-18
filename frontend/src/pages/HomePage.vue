@@ -123,11 +123,11 @@
             <div class="text-font">Δημήτριος Τσικάκης & Μαρίζα Κονίδη</div>
           </q-card-section>
         </q-card>
-        <div class="text-font">
+        <div class="text-font q-mx-xl">
           Οι <span class="text-bold">κουμπάροι</span> μας <br />
           Δημήτριος Διαμαντάρας - Ιωάννης Πετσάνης
         </div>
-        <div class="text-font q-my-xl">
+        <div class="text-font q-ma-xl">
           Οι <span class="text-bold">γονείς</span> μας <br />
           Τσικάκης Αθανάσιος - Βασιλική Δαρόγλου <br />
           Κονίδης Θεμιστοκλής - Κωνσταντάτου Χριστίνα
@@ -223,13 +223,15 @@
         >
           Η τοποθεσία μας
         </div>
-        <div class="q-mt-lg text-font">
-          Η τελετή θα γίνει στις 18:00 στην αίθουσα του μουσείου στο κτήμα
-          Λαζαρίδη στην Οινότρια γη στο Καπανδρίτι και <br />
-          στη συνέχεια θα ακολουθήσει party σε άλλο κτίριο.
+        <div class="q-ma-lg text-font">
+          Σας περιμένουμε στις 18:00 στο κτήμα Οινότρια Γη του Κώστα Λαζαρίδη,
+          στο Καπανδρίτι Αττικής. <br />
+          Η τελετή θα πραγματοποιηθεί στην αίθουσα Μέθεξη του Μουσείου Οίνου
+          <br />
+          και στη συνέχεια θα ακολουθήσει πάρτι στην αίθουσα Αλκυονίδες.
         </div>
         <div
-          class="map-container q-my-xl"
+          class="map-container q-mt-lg q-mb-xl"
           :class="[$q.screen.lt.md ? 'col' : 'row']"
         >
           <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-xs-12">
@@ -337,7 +339,7 @@
       <q-dialog v-model="attendDialog" persistent="">
         <q-card
           class="q-py-xs q-px-md q-py-sm--up q-px-lg--up"
-          style="min-width: 40vw; max-width: 80vw; border-radius: 12px"
+          style="width: 100%; border-radius: 12px"
         >
           <q-card-section class="text-center">
             <div class="text-h6">RSVP</div>
@@ -351,19 +353,20 @@
                   (val) => (name = capitalizeName(val.trim()))
                 "
                 filled
-                label="Όνομα και Επίθετο*"
+                placeholder="Όνομα και Επίθετο*"
                 :rules="[
                   (val) =>
                     (val && val.length > 4) ||
                     'Παρακαλώ καταχωρήστε σωστό όνομα και επίθετο',
                 ]"
                 lazy-rules
+                :input-class="$q.screen.lt.sm ? 'text-caption' : ''"
               />
               <q-input
                 v-model="phoneNumber"
-                class="q-mt-sm"
+                :class="$q.screen.lt.sm ? 'q-mt-md' : 'q-mt-sm'"
                 filled
-                label="Τηλέφωνο επικοινωνίας*"
+                placeholder="Τηλέφωνο επικοινωνίας*"
                 mask="##########"
                 :rules="[
                   (val) =>
@@ -371,12 +374,14 @@
                     'Παρακαλώ καταχωρήστε σωστό αριθμό',
                 ]"
                 lazy-rules
+                :input-class="$q.screen.lt.sm ? 'text-caption' : ''"
               />
               <q-input
                 v-model.trim="mail"
-                class="q-mt-sm"
+                :class="$q.screen.lt.sm ? 'q-mt-md' : 'q-mt-sm'"
                 filled
-                label="Email"
+                placeholder="Email"
+                :input-class="$q.screen.lt.sm ? 'text-caption' : ''"
               />
               <q-select
                 :disable="
@@ -399,13 +404,14 @@
                 "
                 class="q-mt-lg"
                 filled
-                label="Όνομα και Επίθετο του/της συνοδού"
+                placeholder="Όνομα & Επίθετο συνοδού"
                 :rules="[
                   (val) =>
                     (val && val.length > 4) ||
                     'Παρακαλώ καταχωρήστε σωστό όνομα και επίθετο',
                 ]"
                 lazy-rules="ondemand"
+                :input-class="$q.screen.lt.sm ? 'text-caption' : ''"
               />
               <q-input
                 v-if="selectedOption.value === 'yes'"
@@ -415,9 +421,10 @@
                 "
                 filled
                 class="q-mt-sm"
-                label="Παιδιά"
+                placeholder="Παιδιά"
                 @keyup.enter="addChip"
                 bottom-slots
+                :input-class="$q.screen.lt.sm ? 'text-caption' : ''"
               >
                 <template v-slot:hint>
                   <div>
@@ -427,7 +434,10 @@
                   </div>
                 </template>
               </q-input>
-              <div v-if="otherPeople.length && selectedOption.value === 'yes'">
+              <div
+                v-if="otherPeople.length && selectedOption.value === 'yes'"
+                class="q-mt-md"
+              >
                 <q-chip
                   v-for="(other, index) in otherPeople"
                   :key="index"
@@ -446,6 +456,7 @@
               @click="cancelAttend"
               class="bg-grey text-white text-bold"
               no-caps
+              :size="$q.screen.lt.sm ? 'sm' : 'md'"
             >
               Ακύρωση
             </q-btn>
@@ -455,6 +466,7 @@
               style="background-color: #690124"
               class="text-white text-bold"
               no-caps
+              :size="$q.screen.lt.sm ? 'sm' : 'md'"
             >
               Καταχώρηση
             </q-btn>
@@ -1049,15 +1061,7 @@ onUnmounted(() => {
   width: 4px;
   height: 50px;
   margin-left: -2px;
-  animation: rotate-minute 250s linear infinite;
-}
-
-.second-hand {
-  width: 2px;
-  height: 55px;
-  margin-left: -1px;
-  background-color: #000000;
-  animation: rotate-second 60s linear infinite;
+  animation: rotate-minute 12s linear infinite;
 }
 
 .center-circle {
