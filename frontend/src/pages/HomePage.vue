@@ -698,7 +698,7 @@ function scrollToCountdown() {
 }
 
 function updateCountdown() {
-  const targetDate = new Date(2025, 11, 20, 18, 0, 0);
+  const targetDate = new Date(2025, 12, 20, 18, 0, 0);
   const now = new Date();
 
   const diff = targetDate - now;
