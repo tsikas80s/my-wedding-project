@@ -56,7 +56,10 @@
             opacity: nameOpacity,
           }"
         >
-          <div class="dancing-script">Μαρίζα & Δημήτρης</div>
+          <div v-if="$q.screen.lt.sm" class="dancing-script">
+            Μαρίζα Δημήτρης
+          </div>
+          <div v-else class="dancing-script">Μαρίζα & Δημήτρης</div>
         </div>
         <div class="arrow-down" :style="{ opacity: arrowOpacity }">
           <q-icon name="keyboard_arrow_down" size="xl" />
@@ -112,7 +115,10 @@
         </div>
 
         <!-- Body 2nd section -->
-        <q-card class="wedding-card shadow-10">
+        <q-card
+          class="wedding-card shadow-10"
+          :style="$q.screen.lt.sm ? 'min-width: 75%' : 'min-width: '"
+        >
           <q-card-section>
             <div class="text-font">
               Με μεγάλη μας χαρά σας προσκαλούμε στο γάμο μας!
@@ -120,17 +126,41 @@
           </q-card-section>
           <q-separator class="custom-separator-second"></q-separator>
           <q-card-section>
-            <div class="text-font">Δημήτριος Τσικάκης & Μαρίζα Κονίδη</div>
+            <div v-if="$q.screen.lt.sm" class="text-font">
+              Δημήτριος Τσικάκης <br />
+              Μαρίζα Κονίδη
+            </div>
+            <div v-else class="text-font">
+              Δημήτριος Τσικάκης & Μαρίζα Κονίδη
+            </div>
+            <!-- <div class="text-font">Δημήτριος Τσικάκης & Μαρίζα Κονίδη</div> -->
           </q-card-section>
         </q-card>
-        <div class="text-font q-mx-xl">
+        <div v-if="$q.screen.lt.sm" class="text-font">
           Οι <span class="text-bold">κουμπάροι</span> μας <br />
-          Δημήτριος Διαμαντάρας - Ιωάννης Πετσάνης
+          Δημήτριος Διαμαντάρας <br />
+          Ιωάννης Πετσάνης
         </div>
-        <div class="text-font q-ma-xl">
+        <div v-else class="text-font">
+          Οι <span class="text-bold">κουμπάροι</span> μας <br />
+          Δημήτριος Διαμαντάρας & Ιωάννης Πετσάνης
+        </div>
+        <!-- <div class="text-font q-ma-xl">
           Οι <span class="text-bold">γονείς</span> μας <br />
           Τσικάκης Αθανάσιος - Βασιλική Δαρόγλου <br />
           Κονίδης Θεμιστοκλής - Κωνσταντάτου Χριστίνα
+        </div> -->
+        <div v-if="$q.screen.lt.sm" class="text-font q-ma-xl">
+          Οι <span class="text-bold">γονείς</span> μας <br />
+          Τσικάκης Αθανάσιος <br />
+          Βασιλική Δαρόγλου <br />
+          Κονίδης Θεμιστοκλής <br />
+          Κωνσταντάτου Χριστίνα
+        </div>
+        <div v-else class="text-font q-ma-xl">
+          Οι <span class="text-bold">γονείς</span> μας <br />
+          Τσικάκης Αθανάσιος & Βασιλική Δαρόγλου <br />
+          Κονίδης Θεμιστοκλής & Κωνσταντάτου Χριστίνα
         </div>
       </section>
 
