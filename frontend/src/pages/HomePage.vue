@@ -10,7 +10,7 @@
         <div class="q-ma-sm fixed">
           <q-btn
             @click="toggleLeftDrawer"
-            :size="$q.screen.lt.md ? 'sm' : 'xl'"
+            :size="$q.screen.lt.md ? 'lg' : 'xl'"
             flat
             round
             icon="menu"
@@ -482,7 +482,8 @@ const minutes = ref(0);
 const seconds = ref(0);
 const nameOffset = ref(0);
 const nameScale = ref(1);
-const nameOpacity = ref(0);
+const nameOpacity = ref(1);
+const scrollPosition = ref(0);
 const arrowOpacity = ref(1);
 const leftDrawerOpen = ref(false);
 const saveTheDateSection = ref(null);
@@ -672,19 +673,15 @@ function updateCountdown() {
 }
 
 function handleScroll() {
-  const scrollPosition = window.scrollY;
-  const triggerPoint = window.innerHeight * 0.7;
+  const scrollY = window.scrollY || window.pageYOffset;
+  // Move text in opposite direction (negative value)
+  nameOffset.value = -scrollY * 0.8; // Adjust 0.5 to control speed
 
-  if (scrollPosition < triggerPoint) {
-    const progress = Math.min(scrollPosition / (triggerPoint * 0.7), 1);
-    nameOffset.value = progress * 20;
-    nameScale.value = 1 + progress * 0.1;
-    nameOpacity.value = progress * 1.2;
-    arrowOpacity.value = 1 - progress;
-  } else {
-    nameOpacity.value = 1;
-    arrowOpacity.value = 0;
-  }
+  // Optional effects
+  const scale = 1 - Math.min(scrollY / 1000, 0.3);
+  nameScale.value = Math.max(scale, 0.7);
+
+  scrollPosition.value = scrollY;
 }
 
 function capitalizeName(fullName) {
@@ -848,7 +845,7 @@ onUnmounted(() => {
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 120%;
   transform: translate(-50%, -50%);
 }
 
