@@ -254,11 +254,13 @@
           Η τοποθεσία μας
         </div>
         <div class="q-ma-lg text-font">
-          Σας περιμένουμε στις 18:00 στο κτήμα Οινότρια Γη του Κώστα Λαζαρίδη,
-          στο Καπανδρίτι Αττικής. <br />
-          Η τελετή θα πραγματοποιηθεί στην αίθουσα Μέθεξη του Μουσείου Οίνου
+          Σας περιμένουμε στις <span class="text-bold">18:00</span> στο κτήμα
+          Οινότρια Γη του Κώστα Λαζαρίδη, στο Καπανδρίτι Αττικής. <br />
+          Η τελετή θα πραγματοποιηθεί στην αίθουσα
+          <span class="text-bold">Methexis</span> του Μουσείου Οίνου
           <br />
-          και στη συνέχεια θα ακολουθήσει πάρτι στην αίθουσα Αλκυονίδες.
+          και στη συνέχεια θα ακολουθήσει πάρτι στην αίθουσα
+          <span class="text-bold">Αλκυονίδες</span>.
         </div>
         <div
           class="map-container q-mt-lg q-mb-xl"
@@ -297,10 +299,18 @@
                   <q-icon color="white" size="xl" name="mdi-directions" />
                 </q-item-section>
                 <q-item-section>
-                  <div class="text-white text-bold">Οδηγίες</div>
-                  <div class="text-white">Οινότρια Γη</div>
-                  <div class="text-white">Κτήμα Λαζαρίδη</div>
-                  <div class="text-white">Καπανδρίτι</div>
+                  <div class="text-white text-bold" style="font-size: 16px">
+                    Οδηγίες
+                  </div>
+                  <div class="text-white" style="font-size: 16px">
+                    Οινότρια Γη
+                  </div>
+                  <div class="text-white" style="font-size: 16px">
+                    Κτήμα Λαζαρίδη
+                  </div>
+                  <div class="text-white" style="font-size: 16px">
+                    Καπανδρίτι
+                  </div>
                 </q-item-section>
               </q-item>
             </q-card>
